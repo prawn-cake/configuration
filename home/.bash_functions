@@ -14,3 +14,14 @@ function add-apt-key() {
 	)
 }
 export -f add-apt-key
+
+# fix vim backups
+function fix-vim-backups() {
+	[ -f ~/.vimrc ] && grep 'set backup' ~/.vimrc &&\
+	(
+		VIM_BACKUP_DIR=$HOME/$(grep 'set backupdir' ~/.vimrc|cut -d '=' -f2|sed 's/\$HOME\///')
+		echo "Found vim backup dir: $VIM_BACKUP_DIR"
+		[ ! -d $VIM_BACKUP_DIR ] && mkdir -p $VIM_BACKUP_DIR && echo "Fixed" || echo "No need to fix"
+	)
+}
+export -f fix-vim-backups
